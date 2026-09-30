@@ -76,7 +76,7 @@ void setup()
   esp_now_register_send_cb(OnDataSent);
   
   // Register peer
-  esp_now_peer_info_t peerInfo;
+  esp_now_peer_info_t peerInfo = {};
   memcpy(peerInfo.peer_addr, receiverMacAddress, 6);
   peerInfo.channel = 0;  
   peerInfo.encrypt = false;
@@ -116,7 +116,7 @@ void loop()
 
     esp_err_t result = esp_now_send(receiverMacAddress, (uint8_t *) &data, sizeof(data));
 
-    String inputData  = inputData + "values " + xAxisValue + "  " + yAxisValue + "  " + zAxisValue;
+    String inputData = "values " + String(xAxisValue) + "  " + String(yAxisValue) + "  " + String(zAxisValue);
     Serial.println(inputData);
     delay(50);            
   }

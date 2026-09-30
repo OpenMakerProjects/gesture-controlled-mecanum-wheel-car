@@ -1,5 +1,6 @@
 #include <esp_now.h>
 #include <WiFi.h>
+#include <vector>
 
 #define FORWARD 1
 #define BACKWARD 2
@@ -53,13 +54,12 @@ PacketData receiverData;
 // callback function that will be executed when data is received
 void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) 
 {
-  if (len == 0)
+  if (len != sizeof(receiverData))
   {
     return;
   }
   memcpy(&receiverData, incomingData, sizeof(receiverData));
-  String inputData ;
-  inputData = inputData + "values " + receiverData.xAxisValue + "  " + receiverData.yAxisValue + "  " + receiverData.zAxisValue;
+  String inputData = "values " + String(receiverData.xAxisValue) + "  " + String(receiverData.yAxisValue) + "  " + String(receiverData.zAxisValue);
   Serial.println(inputData);
 
   if ( receiverData.xAxisValue < 75 && receiverData.yAxisValue < 75)
