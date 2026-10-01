@@ -18,8 +18,7 @@ VectorFloat gravity;    // [x, y, z]            gravity vector
 float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gravity vector
 
 // RECEIVER MAC Address
-// Replace with the station MAC address printed by GetMacAddress.ino.
-uint8_t receiverMacAddress[] = {0x00,0x00,0x00,0x00,0x00,0x00};
+uint8_t receiverMacAddress[] = {0xAC,0x67,0xB2,0x36,0x7F,0x28};  //AC:67:B2:36:7F:28
 
 struct PacketData 
 {
@@ -76,7 +75,7 @@ void setup()
   esp_now_register_send_cb(OnDataSent);
   
   // Register peer
-  esp_now_peer_info_t peerInfo = {};
+  esp_now_peer_info_t peerInfo;
   memcpy(peerInfo.peer_addr, receiverMacAddress, 6);
   peerInfo.channel = 0;  
   peerInfo.encrypt = false;
@@ -116,7 +115,7 @@ void loop()
 
     esp_err_t result = esp_now_send(receiverMacAddress, (uint8_t *) &data, sizeof(data));
 
-    String inputData = "values " + String(xAxisValue) + "  " + String(yAxisValue) + "  " + String(zAxisValue);
+    String inputData  = inputData + "values " + xAxisValue + "  " + yAxisValue + "  " + zAxisValue;
     Serial.println(inputData);
     delay(50);            
   }
